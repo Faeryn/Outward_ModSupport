@@ -1,0 +1,14 @@
+{
+    "name": "ModSupport",
+    "author": "Faeryn",
+    "version_number": "1.0.0",
+    "website_url": "",
+    "description": "This is a mod",
+    "dependencies": [
+        "BepInEx-BepInExPack_Outward-5.4.18"
+    ],
+    "artifacts": {
+        "plugin": [],
+        "patcher": []
+    }
+}
