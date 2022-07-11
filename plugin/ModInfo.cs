@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
 using BepInEx;
 using ExitGames.Client.Photon;
 using Version = System.Version;
 
 namespace ModSupport {
 	public class ModInfo {
-		public string GUID { get; private set; }
-		public string Name { get; private set; }
-		public Version Version { get; private set; }
+		public string GUID { get; }
+		public string Name { get; }
+		public Version Version { get; }
 
 		public ModInfo(string guid, string name, Version version) {
 			GUID = guid;

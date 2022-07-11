@@ -42,6 +42,10 @@ namespace ModSupport {
 			return GetEnumerator();
 		}
 
+		public bool isEmpty() {
+			return list.Count == 0;
+		}
+
 		public override string ToString() {
 			return list.Aggregate(
 					new StringBuilder(), 

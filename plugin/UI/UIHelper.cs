@@ -37,9 +37,9 @@ namespace ModSupport.UI {
 			RectTransform rt = headers.GetComponent<RectTransform>();
 			rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ModListMenu.PanelWidth-ModListMenu.HeaderOffset);
 			CreateHeader("Mod name", ModListMenu.ModNameWidth, headers.transform);
-			CreateHeader("Host ver.", ModListMenu.HostVersionWidth, headers.transform);
-			CreateHeader("Client ver.", ModListMenu.ClientVersionWidth, headers.transform);
-			CreateHeader("Status", ModListMenu.StatusWidth, headers.transform);
+			CreateHeader("Host ver.", "FirstVersionHeader", ModListMenu.HostVersionWidth, headers.transform);
+			CreateHeader("Client ver.", "SecondVersionHeader", ModListMenu.ClientVersionWidth, headers.transform);
+			CreateHeader("Status", "StatusHeader", ModListMenu.StatusWidth, headers.transform);
 			rt.localPosition = new Vector3(-ModListMenu.HeaderOffset, 115, 0);
 			RectTransform contentRT = content.GetComponent<RectTransform>();
 			contentRT.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ModListMenu.PanelWidth);
@@ -81,7 +81,13 @@ namespace ModSupport.UI {
 			modObj.transform.SetParent(parent, false);
 			return textObj;
 		}
-		
+
+		public static Text CreateHeader(string text, string name, float width, Transform parent) {
+			Text textObj = CreateHeader(text, width, parent);
+			textObj.gameObject.name = name;
+			return textObj;
+		}
+
 		public static Text CreateHeader(string text, float width, Transform parent) {
 			Text textObj = CreateText(text, width, parent);
 			textObj.fontSize = 22;

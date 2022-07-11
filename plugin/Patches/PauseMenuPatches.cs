@@ -10,15 +10,15 @@ namespace ModSupport.Patches {
 		[HarmonyPatch(nameof(PauseMenu.StartInit)), HarmonyPostfix]
 		private static void PauseMenu_StartInit_Postfix(PauseMenu __instance) {
 			ModListMenu modListMenu = ModListMenu.CreateEmpty(__instance.CharacterUI, __instance.transform);
-			CharacterManager.Instance.GetWorldHostCharacter();
 			Transform buttonsPanelTransform = __instance.m_hideOnPauseButtons.transform;
 			GameObject settingsButton = buttonsPanelTransform.Find("btnOptions").gameObject;
 
 			UIHelper.AddButton(settingsButton, "btnMods", 5, "Mods", () => {
 				PlayerSystem host = GetHostPlayer();
 				PlayerSystem client = GetFirstOtherPlayerOrSelf();
-				modListMenu.HostModList = host != null ? host.GetModList() : ModList.Empty;
-				modListMenu.ClientModList = client != null ? client.GetModList() : ModList.Empty;
+				modListMenu.MenuMode = Global.Lobby.PlayersInLobbyCount > 1 ? ModListMenuMode.MultiplayerCompare : ModListMenuMode.Single;
+				modListMenu.HostModList = host != null ? host.GetModList() : null;
+				modListMenu.ClientModList = client != null ? client.GetModList() : null;
 				modListMenu.Show();
 			});
 

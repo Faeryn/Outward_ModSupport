@@ -21,16 +21,21 @@ namespace ModSupport.UI {
 		public const float ClientVersionWidth = EffectiveWidth * 0.2f;
 		public const float StatusWidth = EffectiveWidth * 0.2f;
 
+		public ModListMenuMode MenuMode { get; set; } = ModListMenuMode.Single;
+		
 		public string HostPlayerName { get; set; }
 		public string ClientPlayerName { get; set; }
 		public ModList HostModList { get; set; }
 		public ModList ClientModList { get; set; }
 		
 		private Text title;
+		private Text firstVersionHeader;
+		private Text secondVersionHeader;
+		private Text statusHeader;
 		private GameObject content;
 
-		public override void AwakeInit() {
-			base.AwakeInit();
+		public override void StartInit() {
+			base.StartInit();
 			title = transform.FindInAllChildren("lblTitle").GetComponent<Text>();
 			GameObject footer = transform.FindInAllChildren("NormalFooter").gameObject;
 			FooterButtonHolder footerButtonHolder = footer.GetComponent<FooterButtonHolder>();
@@ -39,6 +44,9 @@ namespace ModSupport.UI {
 			});
 			GameObject viewport = transform.FindInAllChildren("Viewport").gameObject;
 			content = viewport.transform.Find("Content").gameObject;
+			firstVersionHeader = transform.FindInAllChildren("FirstVersionHeader").GetComponent<Text>();
+			secondVersionHeader = transform.FindInAllChildren("SecondVersionHeader").GetComponent<Text>();
+			statusHeader = transform.FindInAllChildren("StatusHeader").GetComponent<Text>();
 		}
 
 		public override void Show() {
@@ -48,21 +56,45 @@ namespace ModSupport.UI {
 
 		private void Refresh() {
 			ResetModListDisplay();
-			if (HostModList == null) {
-				HostModList = ModList.Empty;
+			
+			ModList modListA = null;
+			ModList modListB = null;
+
+			switch (MenuMode) {
+				case ModListMenuMode.Single: {
+					firstVersionHeader.text = "Version";
+					secondVersionHeader.text = "";
+					statusHeader.text = "";
+					modListA = HostModList ?? ClientModList;
+					modListB = ModList.Empty;
+					break;
+				}
+				case ModListMenuMode.MultiplayerCompare: {
+					firstVersionHeader.text = "Host ver.";
+					secondVersionHeader.text = "Client ver.";
+					statusHeader.text = "Status";
+					modListA = HostModList;
+					modListB = ClientModList;
+					break;
+				}
 			}
-			if (ClientModList == null) {
-				ClientModList = ModList.Empty;
+			
+			if (modListA == null) {
+				modListA = ModList.Empty;
 			}
+			if (modListB == null) {
+				modListB = ModList.Empty;
+			}
+			
 			HashSet<ModInfo> foundClientMods = new HashSet<ModInfo>();
-			foreach (ModInfo modA in HostModList) {
-				ModInfo modB = ClientModList.FindByGuid(modA.GUID);
+			foreach (ModInfo modA in modListA) {
+				ModInfo modB = modListB.FindByGuid(modA.GUID);
 				if (modB != null) {
 					foundClientMods.Add(modB);
 				}
 				CreateModRow(modA.Name, modA.Version, modB?.Version, content.transform);
 			}
-			foreach (ModInfo modB in ClientModList) {
+			foreach (ModInfo modB in modListB) {
 				if (!foundClientMods.Contains(modB)) {
 					CreateModRow(modB.Name, null, modB.Version, content.transform);
 				}
@@ -83,20 +115,25 @@ namespace ModSupport.UI {
 			hlg.spacing = HorizontalSpacing;
 			Color color;
 			string status;
-			if (clientVersion == null) {
-				color = MissingColor;
-				status = "Missing";
-			} else if (hostVersion == null) {
-				color = ExtraColor;
-				status = "Extra";
-			} else if (hostVersion != clientVersion) {
-				color = VersionMismatchColor;
-				status = "Wrong ver.";
+			if (MenuMode == ModListMenuMode.MultiplayerCompare) {
+				if (clientVersion == null) {
+					color = MissingColor;
+					status = "Missing";
+				} else if (hostVersion == null) {
+					color = ExtraColor;
+					status = "Extra";
+				} else if (hostVersion != clientVersion) {
+					color = VersionMismatchColor;
+					status = "Wrong ver.";
+				} else {
+					color = ModNameColor;
+					status = "OK";
+				}
 			} else {
 				color = ModNameColor;
-				status = "OK";
+				status = "";
 			}
-			
+
 			UIHelper.CreateText(modName, ModNameWidth, row.transform, color);
 			UIHelper.CreateText(hostVersion != null ? hostVersion.ToString() : "", HostVersionWidth, row.transform, color);
 			UIHelper.CreateText(clientVersion != null ? clientVersion.ToString() : "", ClientVersionWidth, row.transform, color);
@@ -118,4 +155,7 @@ namespace ModSupport.UI {
 		}
 
 	}
+	
+	public enum ModListMenuMode { Single, MultiplayerCompare }
+	
 }
