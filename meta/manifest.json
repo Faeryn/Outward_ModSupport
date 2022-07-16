@@ -2,13 +2,9 @@
     "name": "ModSupport",
     "author": "Faeryn",
     "version_number": "1.0.0",
-    "website_url": "",
-    "description": "This is a mod",
+    "website_url": "https://github.com/Faeryn/Outward_ModSupport",
+    "description": "Adds a 'Mods' menu to the main screen and pause menu with various tools to help troubleshoot mod-related problems.",
     "dependencies": [
         "BepInEx-BepInExPack_Outward-5.4.18"
-    ],
-    "artifacts": {
-        "plugin": [],
-        "patcher": []
-    }
+    ]
 }
