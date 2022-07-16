@@ -34,7 +34,8 @@ namespace ModSupport.UI {
 		private Text firstVersionHeader;
 		private Text secondVersionHeader;
 		private Text statusHeader;
-		private Text warningsErrorsDisplay;
+		private Text errorsDisplay;
+		private Text exceptionsDisplay;
 		private GameObject content;
 
 		internal static void InitializePrefab() {
@@ -84,13 +85,18 @@ namespace ModSupport.UI {
 			contentRT.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, PanelWidth);
 			
 			// Footer
-			Text warningsErrorsText = UIHelper.CreateText("0 warnings, 0 errors", 220f, footer.transform, Color.green);
-			warningsErrorsText.name = "WarningsErrorsDisplay";
-			warningsErrorsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 220f);
-			InputDisplay warningsErrorsButton = footerButtonHolder.InfoInputDisplay;
-			warningsErrorsButton.m_event = new Button.ButtonClickedEvent();
-			warningsErrorsButton.ActionText = "Copy errors to clipboard";
-			warningsErrorsButton.m_isStaticInputText = true;
+			Text errorsText = UIHelper.CreateText("0 errors", 120f, footer.transform, Color.green);
+			errorsText.name = "ErrorsDisplay";
+			errorsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
+			
+			Text exceptionsText = UIHelper.CreateText("0 exceptions", 200f, footer.transform, Color.green);
+			exceptionsText.name = "ExceptionsDisplay";
+			exceptionsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200f);
+			
+			InputDisplay errorReportButton = footerButtonHolder.InfoInputDisplay;
+			errorReportButton.m_event = new Button.ButtonClickedEvent();
+			errorReportButton.m_isStaticInputText = true;
+			errorReportButton.ActionText = "Send error report";
 			return modListMenuObj;
 		}
 		
@@ -110,7 +116,8 @@ namespace ModSupport.UI {
 			firstVersionHeader = transform.FindInAllChildren("FirstVersionHeader").GetComponent<Text>();
 			secondVersionHeader = transform.FindInAllChildren("SecondVersionHeader").GetComponent<Text>();
 			statusHeader = transform.FindInAllChildren("StatusHeader").GetComponent<Text>();
-			warningsErrorsDisplay = transform.FindInAllChildren("WarningsErrorsDisplay").GetComponent<Text>();
+			errorsDisplay = transform.FindInAllChildren("ErrorsDisplay").GetComponent<Text>();
+			exceptionsDisplay = transform.FindInAllChildren("ExceptionsDisplay").GetComponent<Text>();
 		}
 
 		public override void Show() {
@@ -172,14 +179,21 @@ namespace ModSupport.UI {
 
 		private void RefreshFooter() {
 			int numErrors = ModSupport.LogHandler.NumErrors;
-			int numWarnings = ModSupport.LogHandler.NumWarnings;
-			warningsErrorsDisplay.text = $"{numWarnings} warnings, {numErrors} errors";
+			int numExceptions = ModSupport.LogHandler.NumExceptions;
+			
+			errorsDisplay.text = $"{numErrors} errors";
+			exceptionsDisplay.text = $"{numExceptions} exceptions";
+			
 			if (numErrors > 0) {
-				warningsErrorsDisplay.color = Color.red;
-			} else if (numWarnings > 0) {
-				warningsErrorsDisplay.color = Color.yellow;
+				errorsDisplay.color = Color.yellow;
 			} else {
-				warningsErrorsDisplay.color = Color.white;
+				errorsDisplay.color = Color.green;
+			}
+			
+			if (numExceptions > 0) {
+				exceptionsDisplay.color = Color.red;
+			} else {
+				exceptionsDisplay.color = Color.green;
 			}
 		}
 		
