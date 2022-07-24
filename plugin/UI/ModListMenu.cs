@@ -95,8 +95,8 @@ namespace ModSupport.UI {
 			
 			InputDisplay errorReportButton = footerButtonHolder.InfoInputDisplay;
 			errorReportButton.m_event = new Button.ButtonClickedEvent();
-			errorReportButton.m_isStaticInputText = true;
-			errorReportButton.ActionText = "Send error report";
+			Object.Destroy(errorReportButton.m_lblActionText.GetComponent<UILocalize>());
+			errorReportButton.ActionText = "Send report";
 			return modListMenuObj;
 		}
 		
