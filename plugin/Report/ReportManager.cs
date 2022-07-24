@@ -35,7 +35,7 @@ namespace ModSupport.Report {
 			byte[] reportJson = ReportToJson(report);
 			using (UnityWebRequest request = new UnityWebRequest($"{ModSupportURL}/api/v1/report", "POST")) {
 				request.SetRequestHeader("Content-Type", "application/json");
-				request.SetChunked(false);
+				request.SetChunked(true);
 				request.uploadHandler = new UploadHandlerRaw(reportJson);
 				request.downloadHandler = new DownloadHandlerBuffer();
 				yield return request.SendWebRequest();
