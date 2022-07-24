@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,10 @@ using UnityEngine.Networking;
 namespace ModSupport.Report {
 	public class ReportManager {
 		private const string ModSupportURL = "http://modsupport.net";
+		
+		private static readonly TimeSpan MinReportInterval = TimeSpan.FromMinutes(5);
+		
+		private DateTime lastReportTime = DateTime.MinValue;
 		
 		private Report GenerateReport() {
 			List<ReportMod> mods = new List<ReportMod>();
@@ -26,6 +31,10 @@ namespace ModSupport.Report {
 		}
 
 		public void SendReport() {
+			if (lastReportTime + MinReportInterval > DateTime.Now) {
+				MenuManager.Instance.ShowMessageBoxOk(null, "You have already sent a report recently. Please wait a few minutes before sending another!", 10);
+				return;
+			}
 			MenuManager.Instance.ShowConnectionScreen("Sending report, please wait...");
 			Report report = GenerateReport();
 			ModSupport.Instance.StartCoroutine(SendReportSync(report));
@@ -44,6 +53,7 @@ namespace ModSupport.Report {
 				MenuManager.Instance.ShowConnectionScreen(false);
 				if (result == UnityWebRequest.Result.Success) {
 					ModSupport.Log.LogDebug(request.downloadHandler.text);
+					lastReportTime = DateTime.Now;
 					MenuManager.Instance.ShowMessageBoxOk(null, "Report sent!", 10);
 				} else if (responseCode == 429) { // Too Many Requests
 					ModSupport.Log.LogError("Request rejected because server is overloaded");
