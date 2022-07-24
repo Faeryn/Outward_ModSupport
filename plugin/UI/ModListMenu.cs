@@ -109,7 +109,14 @@ namespace ModSupport.UI {
 				Hide();
 			});
 			footerButtonHolder.InfoInputDisplay.m_event.AddListener(() => {
-				ModSupport.ReportManager.SendReport();
+				MenuManager.Instance.ShowMessageBoxOkCancel(null, "Send mod error report to the ModSupport server?",
+					() => {
+						ModSupport.ReportManager.SendReport();
+					},
+					() => { 
+						// Do nothing
+					},
+					true);
 			});
 			GameObject viewport = transform.FindInAllChildren("Viewport").gameObject;
 			content = viewport.transform.Find("Content").gameObject;
