@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using UnityEngine;
 
@@ -9,11 +9,19 @@ namespace ModSupport.AppLog {
 		private volatile int numErrors;
 		private volatile int numExceptions;
 
+		public List<LogEntry> GetCopyOfLogEntries() {
+			List<LogEntry> copy;
+			lock (logEntries) {
+				copy = new List<LogEntry>(logEntries);
+			}
+			return copy;
+		}
+
 		public int NumErrors => numErrors;
 		public int NumExceptions => numExceptions;
 		
 		public void HandleLog(string logString, string stackTrace, LogType type) {
-			LogEntry logEntry = new LogEntry(logString, stackTrace, type);
+			LogEntry logEntry = new LogEntry(DateTime.Now, type, logString, stackTrace);
 			lock (logEntries) {
 				logEntries.Add(logEntry);
 			}
@@ -26,18 +34,6 @@ namespace ModSupport.AppLog {
 					Interlocked.Increment(ref numExceptions);
 					break;
 			}
-		}
-
-		public string GenerateErrorReport() {
-			StringBuilder sb = new StringBuilder();
-			
-			// TODO Once the model is finalized in the server project
-			
-			return sb.ToString();
-		}
-		
-		public void CopyErrorsToClipboard() {
-			GUIUtility.systemCopyBuffer = GenerateErrorReport();
 		}
 	}
 }

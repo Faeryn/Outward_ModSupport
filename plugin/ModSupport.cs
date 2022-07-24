@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using HarmonyLib;
 using ModSupport.AppLog;
+using ModSupport.Report;
 using ModSupport.UI;
 using UnityEngine;
 
@@ -12,9 +13,12 @@ namespace ModSupport {
 		public const string NAME = "ModSupport";
 		public const string VERSION = "1.0.0";
 		internal static ManualLogSource Log;
+		internal static ModSupport Instance;
 		internal static readonly LogHandler LogHandler = new LogHandler();
+		internal static readonly ReportManager ReportManager = new ReportManager();
 
 		internal void Awake() {
+			Instance = this;
 			Application.logMessageReceivedThreaded += LogHandler.HandleLog;
 			Log = this.Logger;
 			Log.LogMessage($"Starting {NAME} {VERSION}");

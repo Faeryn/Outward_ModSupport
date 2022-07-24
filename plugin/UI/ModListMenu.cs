@@ -109,7 +109,7 @@ namespace ModSupport.UI {
 				Hide();
 			});
 			footerButtonHolder.InfoInputDisplay.m_event.AddListener(() => {
-				ModSupport.LogHandler.CopyErrorsToClipboard();
+				ModSupport.ReportManager.SendReport();
 			});
 			GameObject viewport = transform.FindInAllChildren("Viewport").gameObject;
 			content = viewport.transform.Find("Content").gameObject;
