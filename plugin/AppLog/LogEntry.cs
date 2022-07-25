@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using UnityEngine;
 
 namespace ModSupport.AppLog {
 	[DataContract]
@@ -12,24 +11,27 @@ namespace ModSupport.AppLog {
 		}
 		private DateTime logTime;
 		
-		[DataMember(Name="logType")]
-		public string LogTypeString {
-			get => logType.ToString();
-			set => Enum.TryParse(value, out logType);
+		[DataMember(Name="logLevel")]
+		public string LogLevelString {
+			get => logLevel.ToString();
+			set => Enum.TryParse(value, out logLevel);
 		}
 
-		private LogType logType;
+		private LogLevel logLevel;
+		
+		[DataMember]
+		private string logSource;
 		
 		[DataMember]
 		private string text;
 		
 		[DataMember]
 		private string stackTrace;
-
-
-		public LogEntry(DateTime logTime, LogType logType, string text, string stackTrace) {
+		
+		public LogEntry(DateTime logTime, string logSource, LogLevel logLevel, string text, string stackTrace) {
 			this.logTime = logTime;
-			this.logType = logType;
+			this.logSource = logSource;
+			this.logLevel = logLevel;
 			this.text = text;
 			this.stackTrace = stackTrace;
 		}

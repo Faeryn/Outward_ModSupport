@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace ModSupport.AppLog {
 	internal class LogHandler {
@@ -20,17 +19,17 @@ namespace ModSupport.AppLog {
 		public int NumErrors => numErrors;
 		public int NumExceptions => numExceptions;
 		
-		public void HandleLog(string logString, string stackTrace, LogType type) {
-			LogEntry logEntry = new LogEntry(DateTime.Now, type, logString, stackTrace);
+		public void AppendLog(LogLevel logLevel, string source, string logString, string stackTrace) {
+			LogEntry logEntry = new LogEntry(DateTime.Now, source, logLevel, logString, stackTrace);
 			lock (logEntries) {
 				logEntries.Add(logEntry);
 			}
 
-			switch (type) {
-				case LogType.Error:
+			switch (logLevel) {
+				case LogLevel.Error:
 					Interlocked.Increment(ref numErrors);
 					break;
-				case LogType.Exception:
+				case LogLevel.Fatal:
 					Interlocked.Increment(ref numExceptions);
 					break;
 			}
