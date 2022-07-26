@@ -8,6 +8,8 @@ namespace ModSupport.Patches {
 	
 	[HarmonyPatch(typeof(MainScreen))]
 	public static class MainScreenPatches {
+
+		private static bool quitLatch = false;
 		
 		[HarmonyPatch(nameof(MainScreen.StartInit)), HarmonyPostfix]
 		private static void MainScreen_StartInit_Postfix(MainScreen __instance) {
@@ -29,6 +31,18 @@ namespace ModSupport.Patches {
 				modListMenu.ClientModList = new ModList(testModInfos);
 				modListMenu.Show();
 			});
+		}
+		
+		[HarmonyPatch(nameof(MainScreen.Quit)), HarmonyPrefix]
+		private static bool MainScreen_Quit_Prefix(MainScreen __instance) {
+			if (ModSupport.ShowMsgBoxOnExceptionExit.Value && !quitLatch) {
+				quitLatch = true;
+				if (ModSupport.LogHandler.HasExceptions) {
+					ModSupportMenus.ShowSendReportOnExitMsgBox(__instance.Quit, __instance.Quit);
+					return false;
+				}
+			}
+			return true;
 		}
 		
 		[HarmonyPatch(nameof(MainScreen.OnHide)), HarmonyPostfix]

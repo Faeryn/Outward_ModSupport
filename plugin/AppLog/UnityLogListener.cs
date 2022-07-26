@@ -1,3 +1,4 @@
+using ModSupport.UI;
 using UnityEngine;
 
 namespace ModSupport.AppLog {
@@ -11,6 +12,9 @@ namespace ModSupport.AppLog {
 
 		private void LogMessageReceived(string logMessage, string stackTrace, LogType type) {
 			ModSupport.LogHandler.AppendLog(UnityToLogLevel(type), UnitySource, logMessage, stackTrace);
+			if (type == LogType.Exception && ModSupport.ShowMsgBoxOnException.Value) {
+				ModSupportMenus.ShowExceptionMsgBox();
+			}
 		}
 		
 		private LogLevel UnityToLogLevel(LogType logType) {

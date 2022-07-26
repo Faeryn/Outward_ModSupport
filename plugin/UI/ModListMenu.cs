@@ -108,16 +108,7 @@ namespace ModSupport.UI {
 			footerButtonHolder.CancelInputDisplay.m_event.AddListener(() => {
 				Hide();
 			});
-			footerButtonHolder.InfoInputDisplay.m_event.AddListener(() => {
-				MenuManager.Instance.ShowMessageBoxOkCancel(null, "Send mod error report to the ModSupport server?",
-					() => {
-						ModSupport.ReportManager.SendReport();
-					},
-					() => { 
-						// Do nothing
-					},
-					true);
-			});
+			footerButtonHolder.InfoInputDisplay.m_event.AddListener(ModSupportMenus.ShowSendReportMsgBox);
 			GameObject viewport = transform.FindInAllChildren("Viewport").gameObject;
 			content = viewport.transform.Find("Content").gameObject;
 			firstVersionHeader = transform.FindInAllChildren("FirstVersionHeader").GetComponent<Text>();

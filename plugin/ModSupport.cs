@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using ModSupport.AppLog;
@@ -12,6 +13,7 @@ namespace ModSupport {
 		public const string GUID = "faeryn.modsupport";
 		public const string NAME = "ModSupport";
 		public const string VERSION = "1.0.0";
+		public const string DISPLAY_NAME = "Mod Support";
 		internal static ManualLogSource Log;
 		internal static ModSupport Instance;
 		internal static readonly LogHandler LogHandler = new LogHandler();
@@ -19,14 +21,23 @@ namespace ModSupport {
 		private readonly UnityLogListener unityLogListener = new UnityLogListener();
 		private readonly BepInExLogListener bepInExLogListener = new BepInExLogListener();
 
+		public static ConfigEntry<bool> ShowMsgBoxOnException;
+		public static ConfigEntry<bool> ShowMsgBoxOnExceptionExit;
+
 		internal void Awake() {
 			Instance = this;
 			unityLogListener.Attach();
 			bepInExLogListener.Attach();
 			Log = this.Logger;
 			Log.LogMessage($"Starting {NAME} {VERSION}");
+			InitializeConfig();
 			ModListMenu.InitializePrefab();
 			new Harmony(GUID).PatchAll();
+		}
+		
+		private void InitializeConfig() {
+			ShowMsgBoxOnException = Config.Bind(DISPLAY_NAME, "Show alert on error", false, "Shows an alert every time an error happens, with the option to send report");
+			ShowMsgBoxOnExceptionExit = Config.Bind(DISPLAY_NAME, "Show alert on error when exiting", true, "Shows an alert on exit if there are errors, with the option to send report");
 		}
 		
 	}

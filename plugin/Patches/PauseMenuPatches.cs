@@ -2,11 +2,14 @@ using HarmonyLib;
 using ModSupport.Extensions;
 using ModSupport.UI;
 using UnityEngine;
+
 namespace ModSupport.Patches {
 	
 	[HarmonyPatch(typeof(PauseMenu))]
 	public static class PauseMenuPatches {
 		
+		private static bool quitLatch = false;
+
 		[HarmonyPatch(nameof(PauseMenu.StartInit)), HarmonyPostfix]
 		private static void PauseMenu_StartInit_Postfix(PauseMenu __instance) {
 			ModListMenu modListMenu = ModListMenu.CreateEmpty(__instance.CharacterUI, __instance.transform);
@@ -35,7 +38,18 @@ namespace ModSupport.Patches {
 				modListMenu.Hide();
 			}
 		}
-
+		
+		[HarmonyPatch(nameof(PauseMenu.Quit)), HarmonyPrefix]
+		private static bool PauseMenu_Quit_Prefix(PauseMenu __instance) {
+			if (ModSupport.ShowMsgBoxOnExceptionExit.Value && !quitLatch) {
+				quitLatch = true;
+				if (ModSupport.LogHandler.HasExceptions) {
+					ModSupportMenus.ShowSendReportOnExitMsgBox(__instance.Quit, __instance.Quit);
+					return false;
+				}
+			}
+			return true;
+		}
 
 		[HarmonyPatch(nameof(PauseMenu.OnCancelInput)), HarmonyPrefix]
 		private static void PauseMenu_OnCancelInput_Prefix(PauseMenu __instance) {

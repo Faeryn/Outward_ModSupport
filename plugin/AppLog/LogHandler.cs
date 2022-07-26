@@ -19,6 +19,8 @@ namespace ModSupport.AppLog {
 		public int NumErrors => numErrors;
 		public int NumExceptions => numExceptions;
 		
+		public bool HasExceptions => NumExceptions > 0;
+		
 		public void AppendLog(LogLevel logLevel, string source, string logString, string stackTrace) {
 			LogEntry logEntry = new LogEntry(DateTime.Now, source, logLevel, logString, stackTrace);
 			lock (logEntries) {
