@@ -21,7 +21,7 @@ namespace ModSupport.Report {
 			foreach (ModInfo modInfo in modList) {
 				mods.Add(new ReportMod(modInfo.GUID, modInfo.Name, modInfo.Version.Major, modInfo.Version.Minor, modInfo.Version.Revision));
 			}
-			return new Report("Test note", mods, ModSupport.LogHandler.GetCopyOfLogEntries());
+			return new Report(null, mods, ModSupport.LogHandler.GetCopyOfLogEntries());
 		}
 
 		private byte[] ReportToJson(Report report) {
