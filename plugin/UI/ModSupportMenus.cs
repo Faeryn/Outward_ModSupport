@@ -3,7 +3,7 @@ using UnityEngine.Events;
 namespace ModSupport.UI {
 	public class ModSupportMenus {
 		
-		private const string SendReportQuestion = "Send error report to the ModSupport server to help fixing mod errors?";
+		private const string SendReportQuestion = "Do you want to send an error report to the ModSupport server to help fix mod errors?";
 		private const string ReportContents = "The report consists of nothing else but your game log (the contents of output_log.txt) and the list of mods you are using.";
 		private const string ReportQuestionAndContents = SendReportQuestion + " " + ReportContents;
 
