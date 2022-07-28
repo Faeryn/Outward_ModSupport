@@ -4,8 +4,8 @@ namespace ModSupport.UI {
 	public class ModSupportMenus {
 		
 		private const string SendReportQuestion = "Send error report to the ModSupport server to help fixing mod errors?";
-		private const string ReportContents = "The report consists of your game log (the contents of output_log.txt) and the list of mods you are using (and nothing else).";
-		private const string ReportQuestionAndContents = SendReportQuestion+" \n("+ReportContents+")";
+		private const string ReportContents = "The report consists of nothing else but your game log (the contents of output_log.txt) and the list of mods you are using.";
+		private const string ReportQuestionAndContents = SendReportQuestion + " " + ReportContents;
 
 		public static void ShowSendReportOnExitMsgBox(UnityAction callbackAfterReport = null, UnityAction callbackOnCancel = null) {
 			MenuManager.Instance.ShowMessageBoxOkCancel(null, "Some errors happened while the game was running. "+ReportQuestionAndContents,
