@@ -35,5 +35,9 @@ namespace ModSupport {
 		public static ModInfo FromDict(Hashtable dict) {
 			return new ModInfo((string)dict["GUID"], (string)dict["Name"], Version.Parse((string)dict["Version"]));
 		}
+
+		public override string ToString() {
+			return $"[{GUID}:{Name}:{Version}]";
+		}
 	}
 }
