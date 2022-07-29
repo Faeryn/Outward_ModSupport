@@ -17,7 +17,7 @@ namespace ModSupport.Report {
 		
 		private Report GenerateReport() {
 			List<ReportMod> mods = new List<ReportMod>();
-			ModList modList = ModList.FromPluginInfos();
+			ModList modList = ModSupport.Instance.ModListManager.ModList;
 			foreach (ModInfo modInfo in modList) {
 				mods.Add(new ReportMod(modInfo.GUID, modInfo.Name, modInfo.Version.Major, modInfo.Version.Minor, modInfo.Version.Revision));
 			}

@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using ModSupport.AppLog;
+using ModSupport.ModSource;
 using ModSupport.Report;
 using ModSupport.UI;
 using UnityLogListener = ModSupport.AppLog.UnityLogListener;
@@ -18,6 +19,7 @@ namespace ModSupport {
 		internal static ModSupport Instance;
 		internal static readonly LogHandler LogHandler = new LogHandler();
 		internal static readonly ReportManager ReportManager = new ReportManager();
+		public readonly ModListManager ModListManager = new ModListManager();
 		private readonly UnityLogListener unityLogListener = new UnityLogListener();
 		private readonly BepInExLogListener bepInExLogListener = new BepInExLogListener();
 
@@ -28,6 +30,7 @@ namespace ModSupport {
 			Instance = this;
 			unityLogListener.Attach();
 			bepInExLogListener.Attach();
+			ModListManager.Initialize();
 			Log = this.Logger;
 			Log.LogMessage($"Starting {NAME} {VERSION}");
 			InitializeConfig();

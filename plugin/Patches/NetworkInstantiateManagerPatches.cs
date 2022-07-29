@@ -1,6 +1,5 @@
 using ExitGames.Client.Photon;
 using HarmonyLib;
-using ModSupport.UI;
 
 namespace ModSupport.Patches {
 	
@@ -9,7 +8,7 @@ namespace ModSupport.Patches {
 
 		[HarmonyPatch(nameof(NetworkInstantiateManager.AddLocalPlayer)), HarmonyPostfix]
 		private static void NetworkInstantiateManager_AddLocalPlayer_Postfix(PlayerSystem __instance) {
-			ModList modList = ModList.FromPluginInfos();
+			ModList modList = ModSupport.Instance.ModListManager.ModList;
 			ModSupport.Log.LogDebug($"Local mod list: {modList}");
 			Hashtable customProperties = new Hashtable();
 			customProperties.Add("modlist", modList.ToDictArray());

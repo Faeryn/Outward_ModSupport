@@ -27,7 +27,7 @@ namespace ModSupport.Patches {
 				testModInfos.Add(new ModInfo("test.TestMod", "TestMod", Version.Parse("2.2.0")));
 				testModInfos.Add(new ModInfo("test2.TestMod2", "TestMod2", Version.Parse("3.2.0")));
 				modListMenu.MenuMode = ModListMenuMode.Single;
-				modListMenu.HostModList = ModList.FromPluginInfos();
+				modListMenu.HostModList = ModSupport.Instance.ModListManager.ModList;
 				modListMenu.ClientModList = new ModList(testModInfos);
 				modListMenu.Show();
 			});

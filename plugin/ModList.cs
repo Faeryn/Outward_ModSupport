@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BepInEx;
-using BepInEx.Bootstrap;
 
 namespace ModSupport {
 	public class ModList : IEnumerable<ModInfo> {
@@ -21,15 +19,7 @@ namespace ModSupport {
 			}
 			list.Sort((modA, modB) => String.Compare(modA.Name, modB.Name, StringComparison.OrdinalIgnoreCase));
 		}
-
-		public static ModList FromPluginInfos() {
-			List<ModInfo> modInfos = new List<ModInfo>();
-			foreach (PluginInfo info in Chainloader.PluginInfos.Values) {
-				modInfos.Add(ModInfo.FromBepInPlugin(info.Metadata));
-			}
-			return new ModList(modInfos);
-		}
-
+		
 		public ModInfo FindByGuid(string guid) {
 			return list.Find(mod => mod.GUID == guid);
 		}
