@@ -85,14 +85,14 @@ namespace ModSupport.UI {
 			contentRT.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, PanelWidth);
 			
 			// Footer
-			Text errorsText = UIHelper.CreateText("0 errors", 120f, footer.transform, Color.green);
-			errorsText.name = "ErrorsDisplay";
-			errorsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
-			
 			Text exceptionsText = UIHelper.CreateText("0 exceptions", 200f, footer.transform, Color.green);
 			exceptionsText.name = "ExceptionsDisplay";
 			exceptionsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200f);
 			
+			Text errorsText = UIHelper.CreateText("0 errors", 120f, footer.transform, Color.green);
+			errorsText.name = "ErrorsDisplay";
+			errorsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
+
 			InputDisplay errorReportButton = footerButtonHolder.InfoInputDisplay;
 			errorReportButton.m_event = new Button.ButtonClickedEvent();
 			Object.Destroy(errorReportButton.m_lblActionText.GetComponent<UILocalize>());
@@ -179,13 +179,14 @@ namespace ModSupport.UI {
 			int numErrors = ModSupport.LogHandler.NumErrors;
 			int numExceptions = ModSupport.LogHandler.NumExceptions;
 			
-			errorsDisplay.text = $"{numErrors} errors";
-			exceptionsDisplay.text = $"{numExceptions} exceptions";
-			
-			if (numErrors > 0) {
-				errorsDisplay.color = Color.yellow;
+			if (ModSupport.ErrorsAdvancedMode.Value) {
+				errorsDisplay.gameObject.SetActive(true);
+				errorsDisplay.text = $"{numErrors} errors";
+				exceptionsDisplay.text = $"{numExceptions} exceptions";
+				
 			} else {
-				errorsDisplay.color = Color.green;
+				errorsDisplay.gameObject.SetActive(false);
+				exceptionsDisplay.text = $"{numExceptions} errors";
 			}
 			
 			if (numExceptions > 0) {
@@ -193,6 +194,13 @@ namespace ModSupport.UI {
 			} else {
 				exceptionsDisplay.color = Color.green;
 			}
+			
+			if (numErrors > 0) {
+				errorsDisplay.color = Color.yellow;
+			} else {
+				errorsDisplay.color = Color.green;
+			}
+
 		}
 		
 		private void ResetModListDisplay() {

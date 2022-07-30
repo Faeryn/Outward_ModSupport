@@ -26,6 +26,7 @@ namespace ModSupport {
 
 		public static ConfigEntry<bool> ShowMsgBoxOnException;
 		public static ConfigEntry<bool> SendOnExit;
+		public static ConfigEntry<bool> ErrorsAdvancedMode;
 
 		internal void Awake() {
 			Instance = this;
@@ -42,6 +43,7 @@ namespace ModSupport {
 			SendOnExit = Config.Bind(CONFIG_BASIC, "Show alert when exiting", true, "Shows an alert on exit if there are errors, with the option to send report.");
 			
 			ShowMsgBoxOnException = Config.Bind(CONFIG_ADVANCED, "Show alert on error", false, "Shows an alert every time an error happens, with the option to send report. This option is intended for debugging purposes, and you should not turn it on unless you want to be interrupted every time an error happens.");
+			ErrorsAdvancedMode = Config.Bind(CONFIG_ADVANCED, "Errors advanced mode", false, "Shows the number of (actual) errors (instead of just exceptions). This feature is intended for developers and advanced users.");
 		}
 		
 	}
