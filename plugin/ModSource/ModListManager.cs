@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ModSupport.ModSource {
 	public class ModListManager {
@@ -20,14 +19,18 @@ namespace ModSupport.ModSource {
 		}
 
 		private void Initialize() {
-			Dictionary<string, LocalMod> mods = new Dictionary<string, LocalMod>();
+			Dictionary<string, ModInfo> mods = new Dictionary<string, ModInfo>();
 			foreach (IModSource modSource in modSources) {
 				LoadMods(modSource, mods);
 			}
-			modList = new ModList(mods.Values.Select(mod => mod.ModInfo));
+			ModSupport.Log.LogDebug($"##### Found {mods.Count} mods #####");
+			foreach (KeyValuePair<string, ModInfo> mod in mods) {
+				ModSupport.Log.LogDebug($"'{mod.Key}' - {mod.Value}");
+			}
+			modList = new ModList(mods.Values);
 		}
 
-		private void LoadMods(IModSource modSource, Dictionary<string, LocalMod> mods) {
+		private void LoadMods(IModSource modSource, Dictionary<string, ModInfo> mods) {
 			foreach (LocalMod newMod in modSource.GetMods()) {
 				string modKey = newMod.FolderName;
 				if (modKey == null) {
@@ -43,8 +46,9 @@ namespace ModSupport.ModSource {
 					continue;
 				}
 				if (!mods.ContainsKey(modKey)) {
-					ModSupport.Log.LogDebug($"Adding mod: '{modKey}' - {newMod}");
-					mods.Add(modKey, newMod);
+					mods.Add(modKey, newMod.ModInfo);
+				} else {
+					mods[modKey] = mods[modKey].Merge(newMod.ModInfo);
 				}
 			}
 		}

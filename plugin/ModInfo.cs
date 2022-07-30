@@ -18,6 +18,17 @@ namespace ModSupport {
 			Description = description;
 			WebsiteURL = websiteURL;
 		}
+		
+		public ModInfo Merge(ModInfo modInfo) {
+			return new ModInfo(
+				GUID ?? modInfo.GUID,
+				Name ?? modInfo.Name,
+				Version ?? modInfo.Version,
+				Author ?? modInfo.Author,
+				Description ?? modInfo.Description,
+				WebsiteURL ?? modInfo.WebsiteURL
+				);
+		}
 
 		/**
 		 * Used for Photon serialization

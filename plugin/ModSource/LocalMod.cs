@@ -1,6 +1,6 @@
 namespace ModSupport.ModSource {
 	public class LocalMod {
-		public ModInfo ModInfo { get; private set; }
+		public ModInfo ModInfo { get; set; }
 		public string DllName { get; private set; }
 		public string FolderName { get; private set; }
 

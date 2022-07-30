@@ -12,7 +12,7 @@ namespace ModSupport.ModSource {
 			foreach (PluginInfo info in Chainloader.PluginInfos.Values) {
 				string dllPath = info.Location;
 				string folderName = GetFolderName(modsRoot, dllPath);
-				mods.Add(new LocalMod(FromBepInPlugin(info.Metadata), Path.GetFileName(dllPath), folderName));
+				mods.Add(new LocalMod(FromBepInPlugin(info.Metadata), Path.GetFileNameWithoutExtension(dllPath), folderName));
 			}
 			return mods;
 		}
