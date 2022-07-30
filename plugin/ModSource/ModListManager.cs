@@ -10,9 +10,16 @@ namespace ModSupport.ModSource {
 
 		private ModList modList;
 
-		public ModList ModList => modList;
+		public ModList ModList {
+			get {
+				if (modList == null) {
+					Initialize();
+				}
+				return modList;
+			}
+		}
 
-		internal void Initialize() {
+		private void Initialize() {
 			Dictionary<string, LocalMod> mods = new Dictionary<string, LocalMod>();
 			foreach (IModSource modSource in modSources) {
 				LoadMods(modSource, mods);
