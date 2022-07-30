@@ -1,4 +1,3 @@
-using BepInEx;
 using ExitGames.Client.Photon;
 using Version = System.Version;
 
@@ -7,15 +6,17 @@ namespace ModSupport {
 		public string GUID { get; }
 		public string Name { get; }
 		public Version Version { get; }
+		public string Author { get; }
+		public string Description { get; }
+		public string WebsiteURL { get; }
 
-		public ModInfo(string guid, string name, Version version) {
+		public ModInfo(string guid, string name, Version version, string author, string description, string websiteURL) {
 			GUID = guid;
 			Name = name;
 			Version = version;
-		}
-
-		public static ModInfo FromBepInPlugin(BepInPlugin plugin) {
-			return new ModInfo(plugin.GUID, plugin.Name, plugin.Version);
+			Author = author;
+			Description = description;
+			WebsiteURL = websiteURL;
 		}
 
 		/**
@@ -26,6 +27,9 @@ namespace ModSupport {
 			dict.Add("GUID", GUID);
 			dict.Add("Name", Name);
 			dict.Add("Version", Version.ToString());
+			dict.Add("Author", Author);
+			dict.Add("Description", Description);
+			dict.Add("WebsiteURL", WebsiteURL);
 			return dict;
 		}
 
@@ -33,11 +37,17 @@ namespace ModSupport {
 		 * Used for Photon deserialization
 		 */
 		public static ModInfo FromDict(Hashtable dict) {
-			return new ModInfo((string)dict["GUID"], (string)dict["Name"], Version.Parse((string)dict["Version"]));
+			return new ModInfo((string)dict["GUID"], 
+				(string)dict["Name"], 
+				Version.Parse((string)dict["Version"]),
+				(string)dict["Author"],
+				(string)dict["Description"],
+				(string)dict["WebsiteURL"]
+				);
 		}
 
 		public override string ToString() {
-			return $"[{GUID}:{Name}:{Version}]";
+			return $"ModInfo{{{nameof(GUID)}: {GUID}, {nameof(Name)}: {Name}, {nameof(Version)}: {Version}, {nameof(Author)}: {Author}}}";
 		}
 	}
 }
