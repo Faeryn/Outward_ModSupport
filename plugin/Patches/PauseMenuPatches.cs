@@ -41,7 +41,7 @@ namespace ModSupport.Patches {
 		
 		[HarmonyPatch(nameof(PauseMenu.Quit)), HarmonyPrefix]
 		private static bool PauseMenu_Quit_Prefix(PauseMenu __instance) {
-			if (ModSupport.ShowMsgBoxOnExceptionExit.Value && !quitLatch) {
+			if (ModSupport.SendOnExit.Value && !quitLatch) {
 				quitLatch = true;
 				if (ModSupport.LogHandler.HasExceptions) {
 					ModSupportMenus.ShowSendReportOnExitMsgBox(__instance.Quit, __instance.Quit);

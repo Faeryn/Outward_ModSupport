@@ -26,7 +26,7 @@ namespace ModSupport.Patches {
 		
 		[HarmonyPatch(nameof(MainScreen.Quit)), HarmonyPrefix]
 		private static bool MainScreen_Quit_Prefix(MainScreen __instance) {
-			if (ModSupport.ShowMsgBoxOnExceptionExit.Value && !quitLatch) {
+			if (ModSupport.SendOnExit.Value && !quitLatch) {
 				quitLatch = true;
 				if (ModSupport.LogHandler.HasExceptions) {
 					ModSupportMenus.ShowSendReportOnExitMsgBox(__instance.Quit, __instance.Quit);
