@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using HarmonyLib;
 using ModSupport.UI;
 using UnityEngine;
@@ -20,15 +18,8 @@ namespace ModSupport.Patches {
 			GameObject creditsButton = buttonsPanelTransform.Find("btnCredit").gameObject;
 			
 			UIHelper.AddButton(creditsButton, "btnMods", 6, "Mods", () => {
-				List<ModInfo> testModInfos = new List<ModInfo>();
-				testModInfos.Add(new ModInfo("com.sinai.SideLoader", "SideLoader", Version.Parse("3.8.3")));
-				testModInfos.Add(new ModInfo("faeryn.weaponskillkeys", "WeaponSkillKeys", Version.Parse("1.4.2")));
-				testModInfos.Add(new ModInfo("faeryn.travelspeed", "TravelSpeed", Version.Parse("1.1.0")));
-				testModInfos.Add(new ModInfo("test.TestMod", "TestMod", Version.Parse("2.2.0")));
-				testModInfos.Add(new ModInfo("test2.TestMod2", "TestMod2", Version.Parse("3.2.0")));
 				modListMenu.MenuMode = ModListMenuMode.Single;
 				modListMenu.HostModList = ModSupport.Instance.ModListManager.ModList;
-				modListMenu.ClientModList = new ModList(testModInfos);
 				modListMenu.Show();
 			});
 		}
