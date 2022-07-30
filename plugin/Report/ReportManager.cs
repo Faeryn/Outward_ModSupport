@@ -19,7 +19,7 @@ namespace ModSupport.Report {
 			List<ReportMod> mods = new List<ReportMod>();
 			ModList modList = ModSupport.Instance.ModListManager.ModList;
 			foreach (ModInfo modInfo in modList) {
-				mods.Add(new ReportMod(modInfo.GUID, modInfo.Name, modInfo.Version.Major, modInfo.Version.Minor, modInfo.Version.Revision));
+				mods.Add(new ReportMod(modInfo.GUID, modInfo.Name, modInfo.Version.Major, modInfo.Version.Minor, modInfo.Version.Revision, modInfo.Author));
 			}
 			return new Report(null, mods, ModSupport.LogHandler.GetCopyOfLogEntries());
 		}
