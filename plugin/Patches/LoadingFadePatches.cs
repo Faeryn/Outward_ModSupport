@@ -20,7 +20,6 @@ namespace ModSupport.Patches {
 		
 		
 		[HarmonyPatch(nameof(LoadingFade.Update)), HarmonyPrefix]
-		
 		private static void LoadingFade_Update_Prefix(LoadingFade __instance) {
 			if (msgBoxDisplayed || !__instance.m_loadingStarted || Time.frameCount % exceptionCheckInterval != 0) {
 				return;

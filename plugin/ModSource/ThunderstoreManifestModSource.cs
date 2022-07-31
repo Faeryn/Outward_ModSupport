@@ -43,9 +43,11 @@ namespace ModSupport.ModSource {
 
 	[Serializable]
 	internal class Manifest {
+#pragma warning disable 0649
 		public string name;
 		public string version_number;
 		public string website_url;
 		public string description;
+#pragma warning restore 0649
 	}
 }
