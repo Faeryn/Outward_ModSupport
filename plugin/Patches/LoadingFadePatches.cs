@@ -7,7 +7,7 @@ namespace ModSupport.Patches {
 	[HarmonyPatch(typeof(LoadingFade))]
 	public static class LoadingFadePatches {
 		private static readonly int exceptionCheckInterval = 60;
-		private static readonly int exceptionAlertThreshold = 10;
+		private static readonly int exceptionAlertThreshold = 50;
 		
 		private static bool msgBoxDisplayed = false;
 		private static int exceptionsOnLoadStart;
