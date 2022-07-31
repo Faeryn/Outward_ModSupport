@@ -26,6 +26,7 @@ namespace ModSupport {
 
 		public static ConfigEntry<bool> ShowMsgBoxOnException;
 		public static ConfigEntry<bool> SendOnExit;
+		public static ConfigEntry<bool> SendOnLoadingExceptions;
 		public static ConfigEntry<bool> SilentSend;
 		public static ConfigEntry<bool> ErrorsAdvancedMode;
 
@@ -42,6 +43,7 @@ namespace ModSupport {
 
 		private void InitializeConfig() {
 			SendOnExit = Config.Bind(CONFIG_BASIC, "Show alert when exiting", true, "Shows an alert on exit if there are errors, with the option to send report.");
+			SendOnLoadingExceptions = Config.Bind(CONFIG_BASIC, "Show alert on endless loading screen", true, "Shows an alert if too many errors happen during loading.");
 			
 			SilentSend = Config.Bind(CONFIG_ADVANCED, "Send reports without asking", false, "Sends reports to the ModReport server without asking, and does not display any popups on response (success or failure).");
 			ShowMsgBoxOnException = Config.Bind(CONFIG_ADVANCED, "Show alert on error", false, "Shows an alert every time an error happens, with the option to send report. This option is intended for debugging purposes, and you should not turn it on unless you want to be interrupted every time an error happens.");

@@ -1,3 +1,4 @@
+using ModSupport.Extensions;
 using UnityEngine.Events;
 
 namespace ModSupport.UI {
@@ -18,6 +19,21 @@ namespace ModSupport.UI {
 				},
 				() => {
 					callbackOnCancel?.Invoke();
+				},
+				true);
+		}
+		
+		public static void ShowSendReportOnLoadingMsgBox() {
+			if (ModSupport.SilentSend.Value) {
+				ModSupport.ReportManager.SendReport(null, true);
+				return;
+			}
+			MenuManager.Instance.ShowMessageBoxOkCancel(CharacterUIExtensions.GetCurrentCharacterUI(), "Too many errors while loading (possibly endless loading screen). "+ReportQuestionAndContents,
+				() => {
+					ModSupport.ReportManager.SendReport(null, true);
+				},
+				() => {
+					// Do nothing
 				},
 				true);
 		}
