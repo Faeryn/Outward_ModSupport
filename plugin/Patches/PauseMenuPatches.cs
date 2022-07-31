@@ -44,7 +44,7 @@ namespace ModSupport.Patches {
 			if (ModSupport.SendOnExit.Value && !quitLatch) {
 				quitLatch = true;
 				if (ModSupport.LogHandler.HasExceptions) {
-					ModSupportMenus.ShowSendReportOnExitMsgBox(__instance.Quit, __instance.Quit);
+					ModSupportMenus.ShowSendReportOnExitMsgBox(__instance.Quit);
 					return false;
 				}
 			}
