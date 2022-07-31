@@ -19,7 +19,7 @@ It is strongly recommended to use [Outward Config Manager](https://outward.thund
 - **Show alert when exiting**: Shows an alert on exit if there are errors, with the option to send report. Default on.
 - **Show alert on endless loading screen**: Shows an alert if too many errors happen during loading. Default on.
 - **Online features**: Enables online features, such as error reporting. Default on.
-- 
+
 ### Advanced configuration
 - **Send reports without asking**: Sends reports to the ModReport server without asking, and does not display any popups on response (success or failure). Default off.
 - **Show alert on errors**: Shows an alert every time an error happens, with the option to send report. This option is intended for debugging purposes, and you should not turn it on unless you want to be interrupted every time an error happens. Default off.
