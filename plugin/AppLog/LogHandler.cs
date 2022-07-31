@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace ModSupport.AppLog {
 	internal class LogHandler {
+		private List<LogProcessor> logProcessors = new List<LogProcessor> {
+			new RemoveSteamID()
+		};
 		private List<LogEntry> logEntries = new List<LogEntry>();
 		private volatile int numErrors;
 		private volatile int numExceptions;
@@ -22,6 +26,7 @@ namespace ModSupport.AppLog {
 		public bool HasExceptions => NumExceptions > 0;
 		
 		public void AppendLog(LogLevel logLevel, string source, string logString, string stackTrace) {
+			logString = logProcessors.Aggregate(logString, (current, logProcessor) => logProcessor.ProcessLog(current));
 			LogEntry logEntry = new LogEntry(DateTime.Now, source, logLevel, logString, stackTrace);
 			lock (logEntries) {
 				logEntries.Add(logEntry);

@@ -7,7 +7,7 @@ Compares the mods of the connected co-op partner and the host. For this function
 ## Error reports
 The error reporting functionality relies on the ModSupport server, which is hosted by me. This means it's not guaranteed that it'll always be up.  
 The reports contain only the list of mods you are using, and the log (the contents of output_log.txt). Nothing else. The server does not keep your IP address or anything that can be used to personally identify you. 
-I'm doing my best to obfuscate potentially problematic data in the logs such as SteamID. Despite my best efforts though, there may be some data about your PC that Outward puts into the logs (Direct3D version, GPU, game's local path, etc.) so no guarantees.  
+I'm doing my best to remove potentially problematic data in the logs such as SteamID. Despite my best efforts though, there may be some data about your PC that Outward puts into the logs (Direct3D version, GPU, game's local path, etc.) so no guarantees.  
 You are of course free to disable the error report feature.  
 Only modders are able to see these reports on the server.  
 Reports that are older than a month will be automatically deleted.  
