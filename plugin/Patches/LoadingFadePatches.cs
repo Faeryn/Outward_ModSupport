@@ -28,7 +28,7 @@ namespace ModSupport.Patches {
 
 			if (ModSupport.SendOnLoadingExceptions.Value && exceptionsOnLoadStart + exceptionAlertThreshold <= ModSupport.LogHandler.NumExceptions) {
 				msgBoxDisplayed = true;
-				ModSupportMenus.ShowSendReportOnLoadingMsgBox();
+				ModSupportMenus.ShowSendReportOnLoadingMsgBox(ModSupportMenus.ShowExitPrompt);
 				if (CharacterUIExtensions.TryGetCurrentCharacterUI(out CharacterUI characterUI)) {
 					characterUI.MessagePanel = MenuManager.m_instance.m_messageBox;
 				}

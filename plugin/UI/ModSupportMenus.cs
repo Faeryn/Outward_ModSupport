@@ -1,4 +1,5 @@
 using ModSupport.Extensions;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace ModSupport.UI {
@@ -23,17 +24,17 @@ namespace ModSupport.UI {
 				true);
 		}
 		
-		public static void ShowSendReportOnLoadingMsgBox() {
+		public static void ShowSendReportOnLoadingMsgBox(UnityAction callbackAfterReport = null) {
 			if (ModSupport.SilentSend.Value) {
 				ModSupport.ReportManager.SendReport(null, true);
 				return;
 			}
 			MenuManager.Instance.ShowMessageBoxOkCancel(CharacterUIExtensions.GetCurrentCharacterUI(), "Too many errors while loading (possibly endless loading screen). "+ReportQuestionAndContents,
 				() => {
-					ModSupport.ReportManager.SendReport(null, true);
+					ModSupport.ReportManager.SendReport(callbackAfterReport, true);
 				},
 				() => {
-					// Do nothing
+					callbackAfterReport?.Invoke();
 				},
 				true);
 		}
@@ -100,6 +101,10 @@ namespace ModSupport.UI {
 				return;
 			}
 			MenuManager.Instance.ShowMessageBoxOk(null, "Failed to send report due to connection error.", callbackAfterReport);
+		}
+
+		public static void ShowExitPrompt() {
+			MenuManager.Instance.ShowMessageBoxOkCancel(null, "Do you want to exit the game?", Application.Quit, null, true);
 		}
 	}
 }
