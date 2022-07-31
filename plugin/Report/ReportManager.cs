@@ -33,6 +33,10 @@ namespace ModSupport.Report {
 		}
 
 		public void SendReport(UnityAction callbackAfterReport = null, bool ignoreReportInterval = false) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
+			
 			if (!ignoreReportInterval && lastReportTime + MinReportInterval > DateTime.Now) {
 				ModSupportMenus.ShowAlreadySentReportMsgBox(callbackAfterReport);
 				return;

@@ -24,6 +24,7 @@ namespace ModSupport {
 		private readonly UnityLogListener unityLogListener = new UnityLogListener();
 		private readonly BepInExLogListener bepInExLogListener = new BepInExLogListener();
 
+		public static ConfigEntry<bool> OnlineEnabled;
 		public static ConfigEntry<bool> ShowMsgBoxOnException;
 		public static ConfigEntry<bool> SendOnExit;
 		public static ConfigEntry<bool> SendOnLoadingExceptions;
@@ -42,6 +43,7 @@ namespace ModSupport {
 		}
 
 		private void InitializeConfig() {
+			OnlineEnabled = Config.Bind(CONFIG_BASIC, "Online features", true, "Enables online features, such as error reporting.");
 			SendOnExit = Config.Bind(CONFIG_BASIC, "Show alert when exiting", true, "Shows an alert on exit if there are errors, with the option to send report.");
 			SendOnLoadingExceptions = Config.Bind(CONFIG_BASIC, "Show alert on endless loading screen", true, "Shows an alert if too many errors happen during loading.");
 			

@@ -30,6 +30,9 @@ namespace ModSupport.UI {
 		public ModList HostModList { get; set; }
 		public ModList ClientModList { get; set; }
 		
+		private InputDisplay sendReportButton;
+		private FooterButtonHolder footerButtonHolder;
+		
 		private Text title;
 		private Text firstVersionHeader;
 		private Text secondVersionHeader;
@@ -104,11 +107,12 @@ namespace ModSupport.UI {
 			base.StartInit();
 			title = transform.FindInAllChildren("lblTitle").GetComponent<Text>();
 			GameObject footer = transform.FindInAllChildren("NormalFooter").gameObject;
-			FooterButtonHolder footerButtonHolder = footer.GetComponent<FooterButtonHolder>();
+			footerButtonHolder = footer.GetComponent<FooterButtonHolder>();
 			footerButtonHolder.CancelInputDisplay.m_event.AddListener(() => {
 				Hide();
 			});
-			footerButtonHolder.InfoInputDisplay.m_event.AddListener(ModSupportMenus.ShowSendReportMsgBox);
+			sendReportButton = footerButtonHolder.InfoInputDisplay;
+			sendReportButton.m_event.AddListener(ModSupportMenus.ShowSendReportMsgBox);
 			GameObject viewport = transform.FindInAllChildren("Viewport").gameObject;
 			content = viewport.transform.Find("Content").gameObject;
 			firstVersionHeader = transform.FindInAllChildren("FirstVersionHeader").GetComponent<Text>();
@@ -176,6 +180,18 @@ namespace ModSupport.UI {
 		}
 
 		private void RefreshFooter() {
+			if (ModSupport.OnlineEnabled.Value) {
+				footerButtonHolder.m_infoInputDisplay = sendReportButton;
+				sendReportButton.gameObject.SetActive(true);
+			} else {
+				footerButtonHolder.m_infoInputDisplay = null;
+				sendReportButton.Hide();
+				sendReportButton.gameObject.SetActive(false);
+			}
+			RefreshErrorDisplays();
+		}
+
+		private void RefreshErrorDisplays() {
 			int numErrors = ModSupport.LogHandler.NumErrors;
 			int numExceptions = ModSupport.LogHandler.NumExceptions;
 			

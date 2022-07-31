@@ -10,6 +10,9 @@ namespace ModSupport.UI {
 		private const string ReportQuestionAndContents = SendReportQuestion + " " + ReportContents;
 
 		public static void ShowSendReportOnExitMsgBox(UnityAction callbackAfterReport = null, UnityAction callbackOnCancel = null) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				ModSupport.ReportManager.SendReport(null, true);
 				return;
@@ -25,6 +28,9 @@ namespace ModSupport.UI {
 		}
 		
 		public static void ShowSendReportOnLoadingMsgBox(UnityAction callbackAfterReport = null) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				ModSupport.ReportManager.SendReport(null, true);
 				return;
@@ -40,6 +46,9 @@ namespace ModSupport.UI {
 		}
 		
 		public static void ShowSendReportMsgBox() {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				ModSupport.ReportManager.SendReport();
 				return;
@@ -55,6 +64,9 @@ namespace ModSupport.UI {
 		}
 		
 		public static void ShowExceptionMsgBox() {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				return;
 			}
@@ -69,6 +81,9 @@ namespace ModSupport.UI {
 		}
 
 		public static void ShowAlreadySentReportMsgBox(UnityAction callbackAfterReport = null) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				return;
 			}
@@ -76,6 +91,9 @@ namespace ModSupport.UI {
 		}
 
 		public static void ShowReportSentMsgBox(UnityAction callbackAfterReport = null) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				return;
 			}
@@ -83,6 +101,9 @@ namespace ModSupport.UI {
 		}
 
 		public static void ShowReportFailServerOverloadedMsgBox(UnityAction callbackAfterReport = null) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				return;
 			}
@@ -90,6 +111,9 @@ namespace ModSupport.UI {
 		}
 
 		public static void ShowReportFailServerInternalErrorMsgBox(UnityAction callbackAfterReport = null) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				return;
 			}
@@ -97,6 +121,9 @@ namespace ModSupport.UI {
 		}
 
 		public static void ShowReportFailConnectionErrorMsgBox(UnityAction callbackAfterReport = null) {
+			if (!ModSupport.OnlineEnabled.Value) {
+				return;
+			}
 			if (ModSupport.SilentSend.Value) {
 				return;
 			}
