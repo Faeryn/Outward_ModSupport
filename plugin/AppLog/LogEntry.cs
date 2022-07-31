@@ -27,7 +27,16 @@ namespace ModSupport.AppLog {
 		
 		[DataMember]
 		private string stackTrace;
-		
+
+		public DateTime LogTime => logTime;
+
+		public LogLevel LogLevel => logLevel;
+
+		public string LogSource => logSource;
+		public string Text => text;
+
+		public string StackTrace => stackTrace;
+
 		public LogEntry(DateTime logTime, string logSource, LogLevel logLevel, string text, string stackTrace) {
 			this.logTime = logTime;
 			this.logSource = logSource;

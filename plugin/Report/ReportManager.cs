@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using ModSupport.AppLog;
 using ModSupport.UI;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -21,7 +22,10 @@ namespace ModSupport.Report {
 			foreach (ModInfo modInfo in modList) {
 				mods.Add(new ReportMod(modInfo.GUID, modInfo.Name, modInfo.Version.Major, modInfo.Version.Minor, modInfo.Version.Revision, modInfo.Author));
 			}
-			return new Report(null, mods, ModSupport.LogHandler.GetCopyOfLogEntries());
+			IEnumerable<LogEntry> logs = ModSupport.SendOnlyErrors.Value
+				? ModSupport.LogHandler.GetCopyOfErrors()
+				: ModSupport.LogHandler.GetCopyOfLogEntries();
+			return new Report(null, mods, logs);
 		}
 
 		private byte[] ReportToJson(Report report) {

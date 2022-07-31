@@ -19,6 +19,14 @@ namespace ModSupport.AppLog {
 			}
 			return copy;
 		}
+		
+		public List<LogEntry> GetCopyOfErrors() {
+			List<LogEntry> copy;
+			lock (logEntries) {
+				copy = logEntries.Where(logEntry => logEntry.LogLevel == LogLevel.Fatal).ToList();
+			}
+			return copy;
+		}
 
 		public int NumErrors => numErrors;
 		public int NumExceptions => numExceptions;
