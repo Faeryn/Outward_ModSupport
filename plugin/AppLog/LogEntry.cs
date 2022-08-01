@@ -28,6 +28,9 @@ namespace ModSupport.AppLog {
 		[DataMember]
 		private string stackTrace;
 
+		[DataMember]
+		private int count;
+
 		public DateTime LogTime => logTime;
 
 		public LogLevel LogLevel => logLevel;
@@ -43,6 +46,28 @@ namespace ModSupport.AppLog {
 			this.logLevel = logLevel;
 			this.text = text;
 			this.stackTrace = stackTrace;
+			count = 1;
+		}
+
+		public bool ContentEquals(LogEntry other) {
+			return ContentEquals(other.logSource, other.logLevel, other.text, other.stackTrace);
+		}
+		
+		public bool ContentEquals(string otherLogSource, LogLevel otherLogLevel, string otherText, string otherStackTrace) {
+			return logSource == otherLogSource 
+					&& logLevel == otherLogLevel 
+					&& text == otherText 
+					&& stackTrace == otherStackTrace;
+		}
+
+		public LogEntry WithIncrementedCount() {
+			return WithCount(count+1);
+		}
+
+		public LogEntry WithCount(int count) {
+			LogEntry log = new LogEntry(logTime, logSource, logLevel, text, stackTrace);
+			log.count = count;
+			return log;
 		}
 	}
 }
