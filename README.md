@@ -35,6 +35,8 @@ It is strongly recommended to use [Outward Config Manager](https://outward.thund
 - Ability to sync mods with the host (download, install, etc.) while keeping the client's original mod setup intact
 - Detect non-DE mods
 - Warning if a mod is known to be not multiplayer compatible
+- Show a list of mods that threw errors during the last play session
+- Show the mod that is possibly causing endless loading screen
 
 ## Special thanks
 - **Nielsjuh** for helping me test the multiplayer bits
@@ -42,6 +44,10 @@ It is strongly recommended to use [Outward Config Manager](https://outward.thund
 - **Emo** for Outward UI related support
 
 ## Changelog
+
+### 1.1.0
+ - Option to send only errors instead of the entire log
+ - Aggregate similar log entries in the last 5 minutes (this is to prevent spam caused by endless loading screen)
 
 ### 1.0.0
 - Initial release

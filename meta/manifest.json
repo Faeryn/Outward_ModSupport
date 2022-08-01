@@ -1,7 +1,7 @@
 {
     "name": "ModSupport",
     "author": "Faeryn",
-    "version_number": "1.0.0",
+    "version_number": "1.1.0",
     "website_url": "https://github.com/Faeryn/Outward_ModSupport",
     "description": "Adds a 'Mods' menu with various tools to help troubleshoot mod-related problems (such as showing mod version, comparing mods between client and host). Allows the user to send error reports to the ModSupport server to help fix mod errors.",
     "dependencies": [
