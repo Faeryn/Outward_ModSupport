@@ -5,9 +5,14 @@ using UnityEngine.Events;
 namespace ModSupport.UI {
 	public class ModSupportMenus {
 		
-		private const string SendReportQuestion = "Do you want to send an error report to the ModSupport server to help fix mod errors?";
-		private const string ReportContents = "The report consists of nothing else but your game log (the contents of output_log.txt) and the list of mods you are using.";
-		private const string ReportQuestionAndContents = SendReportQuestion + " " + ReportContents;
+		private static string Loc(params string[] keys) {
+			string result = "";
+			foreach (string key in keys) {
+				result += LocalizationManager.Instance.GetLoc($"{ModSupport.GUID}.msgbox.{key}");
+				result += " ";
+			}
+			return result.Trim();
+		}
 
 		public static void ShowSendReportOnExitMsgBox(UnityAction callbackAfterReport = null) {
 			if (!ModSupport.OnlineEnabled.Value) {
@@ -18,7 +23,7 @@ namespace ModSupport.UI {
 				ModSupport.ReportManager.SendReport(callbackAfterReport, true);
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOkCancel(null, "Some errors happened while the game was running. "+ReportQuestionAndContents,
+			MenuManager.Instance.ShowMessageBoxOkCancel(null, Loc("runtime_errors", "report_question", "report_contents"),
 				() => {
 					ModSupport.ReportManager.SendReport(callbackAfterReport, true);
 				},
@@ -37,7 +42,7 @@ namespace ModSupport.UI {
 				ModSupport.ReportManager.SendReport(callbackAfterReport, true);
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOkCancel(CharacterUIExtensions.GetCurrentCharacterUI(), "Too many errors while loading (possibly endless loading screen). "+ReportQuestionAndContents,
+			MenuManager.Instance.ShowMessageBoxOkCancel(CharacterUIExtensions.GetCurrentCharacterUI(), Loc("loading_errors", "report_question", "report_contents"),
 				() => {
 					ModSupport.ReportManager.SendReport(callbackAfterReport, true);
 				},
@@ -55,7 +60,7 @@ namespace ModSupport.UI {
 				ModSupport.ReportManager.SendReport();
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOkCancel(null, ReportQuestionAndContents,
+			MenuManager.Instance.ShowMessageBoxOkCancel(null, Loc("report_question", "report_contents"),
 				() => {
 					ModSupport.ReportManager.SendReport();
 				},
@@ -69,7 +74,7 @@ namespace ModSupport.UI {
 			if (!ModSupport.OnlineEnabled.Value || ModSupport.SilentSend.Value) {
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOkCancel(null, "An error occurred! "+ReportQuestionAndContents,
+			MenuManager.Instance.ShowMessageBoxOkCancel(null, Loc("error", "report_question", "report_contents"),
 				() => {
 					ModSupport.ReportManager.SendReport();
 				},
@@ -84,7 +89,7 @@ namespace ModSupport.UI {
 				callbackAfterReport?.Invoke();
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOk(null, "You have already sent a report recently. Please wait a few minutes before sending another!", callbackAfterReport);
+			MenuManager.Instance.ShowMessageBoxOk(null, Loc("report_already_sent"), callbackAfterReport);
 		}
 
 		public static void ShowReportSentMsgBox(UnityAction callbackAfterReport = null) {
@@ -92,7 +97,7 @@ namespace ModSupport.UI {
 				callbackAfterReport?.Invoke();
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOk(null, "Report sent!", callbackAfterReport);
+			MenuManager.Instance.ShowMessageBoxOk(null, Loc("report_sent"), callbackAfterReport);
 		}
 
 		public static void ShowReportFailServerOverloadedMsgBox(UnityAction callbackAfterReport = null) {
@@ -100,7 +105,7 @@ namespace ModSupport.UI {
 				callbackAfterReport?.Invoke();
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOk(null, "Failed to send report because the server is overloaded at the moment. Please try again later!", callbackAfterReport);
+			MenuManager.Instance.ShowMessageBoxOk(null, Loc("report_fail.busy"), callbackAfterReport);
 		}
 
 		public static void ShowReportFailServerInternalErrorMsgBox(UnityAction callbackAfterReport = null) {
@@ -108,7 +113,7 @@ namespace ModSupport.UI {
 				callbackAfterReport?.Invoke();
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOk(null, "Failed to send report because of an internal server error.", callbackAfterReport);
+			MenuManager.Instance.ShowMessageBoxOk(null, Loc("report_fail.error"), callbackAfterReport);
 		}
 
 		public static void ShowReportFailConnectionErrorMsgBox(UnityAction callbackAfterReport = null) {
@@ -116,11 +121,11 @@ namespace ModSupport.UI {
 				callbackAfterReport?.Invoke();
 				return;
 			}
-			MenuManager.Instance.ShowMessageBoxOk(null, "Failed to send report due to connection error.", callbackAfterReport);
+			MenuManager.Instance.ShowMessageBoxOk(null, Loc("report_fail.connection"), callbackAfterReport);
 		}
 
 		public static void ShowExitPrompt() {
-			MenuManager.Instance.ShowMessageBoxOkCancel(null, "Too many errors while loading (possibly endless loading screen). Do you want to exit the game?", Application.Quit, null, true);
+			MenuManager.Instance.ShowMessageBoxOkCancel(null, Loc("msgbox.loading_errors", "msgbox.exit"), Application.Quit, null, true);
 		}
 	}
 }

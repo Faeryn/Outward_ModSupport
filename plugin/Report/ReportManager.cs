@@ -45,7 +45,7 @@ namespace ModSupport.Report {
 				ModSupportMenus.ShowAlreadySentReportMsgBox(callbackAfterReport);
 				return;
 			}
-			MenuManager.Instance.ShowConnectionScreen("Sending report, please wait...");
+			MenuManager.Instance.ShowConnectionScreen(LocalizationManager.Instance.GetLoc($"{ModSupport.GUID}.msgbox.sending_report"));
 			Report report = GenerateReport();
 			ModSupport.Instance.StartCoroutine(SendReportSync(report, callbackAfterReport));
 		}

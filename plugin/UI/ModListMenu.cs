@@ -33,7 +33,6 @@ namespace ModSupport.UI {
 		private InputDisplay sendReportButton;
 		private FooterButtonHolder footerButtonHolder;
 		
-		private Text title;
 		private Text firstVersionHeader;
 		private Text secondVersionHeader;
 		private Text statusHeader;
@@ -59,8 +58,8 @@ namespace ModSupport.UI {
 			Object.Destroy(windowObj.transform.FindInAllChildren("MappingContent").gameObject);
 			Object.Destroy(windowObj.transform.FindInAllChildren("Tabs").gameObject);
 			Text text = windowObj.transform.FindInAllChildren("lblTitle").GetComponent<Text>();
-			Object.Destroy(text.GetComponent<UILocalize>());
-			text.text = "Mods";
+			text.text = Loc("title");
+			text.GetComponent<UILocalize>().Key = LocKey("title");
 			GameObject footer = windowObj.transform.FindInAllChildren("NormalFooter").gameObject;
 			FooterButtonHolder footerButtonHolder = footer.GetComponent<FooterButtonHolder>();
 			footerButtonHolder.CancelInputDisplay.m_event = new Button.ButtonClickedEvent();
@@ -79,33 +78,32 @@ namespace ModSupport.UI {
 			headers.transform.SetSiblingIndex(0);
 			RectTransform rt = headers.GetComponent<RectTransform>();
 			rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, PanelWidth-HeaderOffset);
-			UIHelper.CreateHeader("Mod name", ModNameWidth, headers.transform);
-			UIHelper.CreateHeader("Host ver.", "FirstVersionHeader", HostVersionWidth, headers.transform);
-			UIHelper.CreateHeader("Client ver.", "SecondVersionHeader", ClientVersionWidth, headers.transform);
-			UIHelper.CreateHeader("Status", "StatusHeader", StatusWidth, headers.transform);
+			UIHelper.CreateHeader(LocKey("header.mod_name"), ModNameWidth, headers.transform);
+			UIHelper.CreateHeader(LocKey("header.host_version"), "FirstVersionHeader", HostVersionWidth, headers.transform);
+			UIHelper.CreateHeader(LocKey("header.client_version"), "SecondVersionHeader", ClientVersionWidth, headers.transform);
+			UIHelper.CreateHeader(LocKey("header.status"), "StatusHeader", StatusWidth, headers.transform);
 			rt.localPosition = new Vector3(-HeaderOffset, 115, 0);
 			RectTransform contentRT = content.GetComponent<RectTransform>();
 			contentRT.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, PanelWidth);
 			
 			// Footer
-			Text exceptionsText = UIHelper.CreateText("0 exceptions", 200f, footer.transform, Color.green);
+			Text exceptionsText = UIHelper.CreateText(LocKey("footer.exceptions"), 200f, footer.transform, Color.green);
 			exceptionsText.name = "ExceptionsDisplay";
 			exceptionsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 200f);
 			
-			Text errorsText = UIHelper.CreateText("0 errors", 120f, footer.transform, Color.green);
+			Text errorsText = UIHelper.CreateText(LocKey("footer.errors"), 120f, footer.transform, Color.green);
 			errorsText.name = "ErrorsDisplay";
 			errorsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
 
 			InputDisplay errorReportButton = footerButtonHolder.InfoInputDisplay;
 			errorReportButton.m_event = new Button.ButtonClickedEvent();
-			Object.Destroy(errorReportButton.m_lblActionText.GetComponent<UILocalize>());
-			errorReportButton.ActionText = "Send report";
+			errorReportButton.m_lblActionText.GetComponent<UILocalize>().Key = LocKey("action.send_report");
+			errorReportButton.ActionText = Loc("action.send_report");
 			return modListMenuObj;
 		}
 		
 		public override void StartInit() {
 			base.StartInit();
-			title = transform.FindInAllChildren("lblTitle").GetComponent<Text>();
 			GameObject footer = transform.FindInAllChildren("NormalFooter").gameObject;
 			footerButtonHolder = footer.GetComponent<FooterButtonHolder>();
 			footerButtonHolder.CancelInputDisplay.m_event.AddListener(() => {
@@ -132,6 +130,11 @@ namespace ModSupport.UI {
 			RefreshFooter();
 		}
 
+		private void SetText(Text text, string key, params string[] args) {
+			text.GetComponent<UILocalize>().Key = args.Length == 0 && key != "" ? LocKey(key) : "";
+			text.text = key == "" ? "" : Loc(key, args);
+		}
+
 		private void RefreshModListDisplay() {
 			ResetModListDisplay();
 			
@@ -140,17 +143,17 @@ namespace ModSupport.UI {
 
 			switch (MenuMode) {
 				case ModListMenuMode.Single: {
-					firstVersionHeader.text = "Version";
-					secondVersionHeader.text = "";
-					statusHeader.text = "";
+					SetText(firstVersionHeader, "header.version");
+					SetText(secondVersionHeader, "");
+					SetText(statusHeader, "");
 					modListA = HostModList ?? ClientModList;
 					modListB = ModList.Empty;
 					break;
 				}
 				case ModListMenuMode.MultiplayerCompare: {
-					firstVersionHeader.text = "Host ver.";
-					secondVersionHeader.text = "Client ver.";
-					statusHeader.text = "Status";
+					SetText(firstVersionHeader, "header.host_version");
+					SetText(secondVersionHeader, "header.client_version");
+					SetText(statusHeader, "header.status");
 					modListA = HostModList;
 					modListB = ClientModList;
 					break;
@@ -197,12 +200,12 @@ namespace ModSupport.UI {
 			
 			if (ModSupport.ErrorsAdvancedMode.Value) {
 				errorsDisplay.gameObject.SetActive(true);
-				errorsDisplay.text = $"{numErrors} errors";
-				exceptionsDisplay.text = $"{numExceptions} exceptions";
+				SetText(errorsDisplay, "footer.errors", numErrors.ToString());
+				SetText(exceptionsDisplay, "footer.exceptions", numExceptions.ToString());
 				
 			} else {
 				errorsDisplay.gameObject.SetActive(false);
-				exceptionsDisplay.text = $"{numExceptions} errors";
+				SetText(exceptionsDisplay, "footer.errors", numExceptions.ToString());
 			}
 			
 			if (numExceptions > 0) {
@@ -236,16 +239,16 @@ namespace ModSupport.UI {
 			if (MenuMode == ModListMenuMode.MultiplayerCompare) {
 				if (clientVersion == null) {
 					color = MissingColor;
-					status = "Missing";
+					status = LocKey("status.missing");
 				} else if (hostVersion == null) {
 					color = ExtraColor;
-					status = "Extra";
+					status = LocKey("status.extra");
 				} else if (hostVersion != clientVersion) {
 					color = VersionMismatchColor;
-					status = "Wrong ver.";
+					status = LocKey("status.wrong_version");
 				} else {
 					color = ModNameColor;
-					status = "OK";
+					status = LocKey("status.ok");
 				}
 			} else {
 				color = ModNameColor;
@@ -267,9 +270,13 @@ namespace ModSupport.UI {
 			list.SetCharacterUI(characterUI);
 			return list;
 		}
-
-		public void SetTitle(string newTitle) {
-			title.text = newTitle;
+		
+		private static string Loc(string key, params string[] args) {
+			return LocalizationManager.Instance.GetLoc(LocKey(key), args);
+		}
+		
+		private static string LocKey(string key) {
+			return $"{ModSupport.GUID}.menu.modlist.{key}";
 		}
 
 	}

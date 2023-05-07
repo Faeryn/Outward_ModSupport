@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using ModSupport.UI;
 using UnityEngine;
@@ -17,13 +18,14 @@ namespace ModSupport.Patches {
 			Transform buttonsPanelTransform = __instance.m_optionButtonsPanel.transform;
 			GameObject creditsButton = buttonsPanelTransform.Find("btnCredit").gameObject;
 			
-			UIHelper.AddButton(creditsButton, "btnMods", 6, "Mods", () => {
+			UIHelper.AddButton(creditsButton, "btnMods", 6, $"{ModSupport.GUID}.menu.modlist.title", () => {
 				modListMenu.MenuMode = ModListMenuMode.Single;
 				modListMenu.HostModList = ModSupport.Instance.ModListManager.ModList;
 				modListMenu.Show();
 			});
+			throw new Exception();
 		}
-		
+
 		[HarmonyPatch(nameof(MainScreen.Quit)), HarmonyPrefix]
 		private static bool MainScreen_Quit_Prefix(MainScreen __instance) {
 			if (ModSupport.SendOnExit.Value && !quitLatch) {

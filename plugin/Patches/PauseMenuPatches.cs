@@ -16,7 +16,7 @@ namespace ModSupport.Patches {
 			Transform buttonsPanelTransform = __instance.m_hideOnPauseButtons.transform;
 			GameObject settingsButton = buttonsPanelTransform.Find("btnOptions").gameObject;
 
-			UIHelper.AddButton(settingsButton, "btnMods", 5, "Mods", () => {
+			UIHelper.AddButton(settingsButton, "btnMods", 5, $"{ModSupport.GUID}.menu.modlist.title", () => {
 				PlayerSystem host = GetHostPlayer();
 				PlayerSystem client = GetFirstOtherPlayerOrSelf();
 				modListMenu.MenuMode = Global.Lobby.PlayersInLobbyCount > 1 ? ModListMenuMode.MultiplayerCompare : ModListMenuMode.Single;
