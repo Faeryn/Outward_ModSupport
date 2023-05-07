@@ -1,4 +1,3 @@
-using System;
 using HarmonyLib;
 using ModSupport.UI;
 using UnityEngine;
@@ -23,7 +22,6 @@ namespace ModSupport.Patches {
 				modListMenu.HostModList = ModSupport.Instance.ModListManager.ModList;
 				modListMenu.Show();
 			});
-			throw new Exception();
 		}
 
 		[HarmonyPatch(nameof(MainScreen.Quit)), HarmonyPrefix]
