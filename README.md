@@ -45,6 +45,9 @@ It is strongly recommended to use [Outward Config Manager](https://outward.thund
 
 ## Changelog
 
+### 1.1.2
+- Added a button to open the log file
+
 ### 1.1.1
 - Supported languages: English, French, German, Italian, Spanish
 
