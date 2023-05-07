@@ -52,6 +52,22 @@ namespace ModSupport.UI {
 				true);
 		}
 		
+		public static void ShowActionsMsgBox() {
+			MenuManager menuManager = MenuManager.Instance;
+			MenuManager.Instance.m_messageBox.SetCharacterUI(null);
+			menuManager.m_messageBox.Show(
+				Loc("actions_text"),
+				"",
+				new[] { $"{ModSupport.GUID}.msgbox.action.send_report", $"{ModSupport.GUID}.msgbox.action.cancel", $"{ModSupport.GUID}.msgbox.action.view_log" },
+				ShowSendReportMsgBox,
+				() => {
+					// Do nothing
+				},
+				() => {
+					Application.OpenURL($"file://{Application.consoleLogPath}");
+				});
+		}
+		
 		public static void ShowSendReportMsgBox() {
 			if (!ModSupport.OnlineEnabled.Value) {
 				return;

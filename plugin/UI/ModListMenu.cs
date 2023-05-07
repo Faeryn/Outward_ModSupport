@@ -95,10 +95,10 @@ namespace ModSupport.UI {
 			errorsText.name = "ErrorsDisplay";
 			errorsText.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 120f);
 
-			InputDisplay errorReportButton = footerButtonHolder.InfoInputDisplay;
-			errorReportButton.m_event = new Button.ButtonClickedEvent();
-			errorReportButton.m_lblActionText.GetComponent<UILocalize>().Key = LocKey("action.send_report");
-			errorReportButton.ActionText = Loc("action.send_report");
+			InputDisplay actionsButton = footerButtonHolder.InfoInputDisplay;
+			actionsButton.m_event = new Button.ButtonClickedEvent();
+			actionsButton.m_lblActionText.GetComponent<UILocalize>().Key = LocKey("action.actions");
+			actionsButton.ActionText = Loc("action.actions");
 			return modListMenuObj;
 		}
 		
@@ -110,7 +110,7 @@ namespace ModSupport.UI {
 				Hide();
 			});
 			sendReportButton = footerButtonHolder.InfoInputDisplay;
-			sendReportButton.m_event.AddListener(ModSupportMenus.ShowSendReportMsgBox);
+			sendReportButton.m_event.AddListener(ModSupportMenus.ShowActionsMsgBox);
 			GameObject viewport = transform.FindInAllChildren("Viewport").gameObject;
 			content = viewport.transform.Find("Content").gameObject;
 			firstVersionHeader = transform.FindInAllChildren("FirstVersionHeader").GetComponent<Text>();
