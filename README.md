@@ -45,6 +45,9 @@ It is strongly recommended to use [Outward Config Manager](https://outward.thund
 
 ## Changelog
 
+### 1.1.1
+- Supported languages: English, French, German, Italian, Spanish
+
 ### 1.1.0
  - Option to send only errors instead of the entire log
  - Aggregate similar log entries in the last 5 minutes (this is to prevent spam caused by endless loading screen)

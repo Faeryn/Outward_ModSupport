@@ -13,7 +13,7 @@ namespace ModSupport {
 	public class ModSupport : BaseUnityPlugin {
 		public const string GUID = "faeryn.modsupport";
 		public const string NAME = "ModSupport";
-		public const string VERSION = "1.1.0";
+		public const string VERSION = "1.1.1";
 		public const string CONFIG_BASIC = "1: Basic Configuration";
 		public const string CONFIG_ADVANCED = "2: Advanced Configuration";
 		internal static ManualLogSource Log;
